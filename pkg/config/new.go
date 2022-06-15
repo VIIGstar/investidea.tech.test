@@ -85,6 +85,10 @@ func New(v *viper.Viper, f *pflag.FlagSet) configuration {
 	}
 	var config configuration
 	err = v.Unmarshal(&config)
+
+	if config.Database.Params == nil {
+		config.Database.Params = make(map[string]string)
+	}
 	return config
 }
 

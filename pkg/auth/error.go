@@ -10,4 +10,6 @@ var (
 	ErrMapClaimNotFound    = errors.New("map claim not found in token")
 	ErrTokenExpired        = errors.New("Token is expired")
 	ErrTokenAudience       = errors.New("Token invalid audience")
+
+	ErrUserAlreadyRegistered = errors.New("Already registered!")
 )

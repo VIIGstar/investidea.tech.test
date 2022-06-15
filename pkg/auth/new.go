@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 	"logur.dev/logur"
 	"net/http"
-	info_log "scaffold-api-server/pkg/info-log"
+	info_log "investidea.tech.test/pkg/info-log"
 	"strings"
 	"time"
 )

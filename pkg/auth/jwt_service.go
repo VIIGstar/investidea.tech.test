@@ -11,7 +11,7 @@ var secretKey string
 
 func init() {
 	if len(secretKey) == 0 {
-		secretKey = fmt.Sprintf("%v", time.Now().Unix())
+		secretKey = fmt.Sprintf("%v", time.Now().Unix()) // TODO: should store key in .env or somewhere, should not be dynamic like this
 	}
 }
 
