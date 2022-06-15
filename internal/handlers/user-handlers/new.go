@@ -2,7 +2,7 @@ package user_handlers
 
 import (
 	"logur.dev/logur"
-	"scaffold-api-server/internal/repository"
+	"investidea.tech.test/internal/repository"
 )
 
 type userHandler struct {

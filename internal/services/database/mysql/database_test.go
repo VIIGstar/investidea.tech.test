@@ -4,9 +4,9 @@ import (
 	health "github.com/AppsFlyer/go-sundheit"
 	"github.com/AppsFlyer/go-sundheit/checks"
 	"github.com/stretchr/testify/assert"
-	"scaffold-api-server/internal/services/health-check"
-	"scaffold-api-server/internal/services/log"
-	"scaffold-api-server/pkg/config"
+	"investidea.tech.test/internal/services/health-check"
+	"investidea.tech.test/internal/services/log"
+	"investidea.tech.test/pkg/config"
 	"testing"
 	"time"
 )

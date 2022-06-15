@@ -1,6 +1,6 @@
 package system_handlers
 
-import build_info "scaffold-api-server/pkg/build-info"
+import build_info "investidea.tech.test/pkg/build-info"
 
 type systemHandler struct {
 	buildInfo build_info.BuildInfo

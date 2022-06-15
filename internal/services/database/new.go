@@ -5,12 +5,12 @@ import (
 	health "github.com/AppsFlyer/go-sundheit"
 	"github.com/AppsFlyer/go-sundheit/checks"
 	"gorm.io/gorm"
+	"investidea.tech.test/internal/services"
+	mysql "investidea.tech.test/internal/services/database/mysql"
+	health_check "investidea.tech.test/internal/services/health-check"
+	"investidea.tech.test/pkg"
+	"investidea.tech.test/pkg/config"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/services"
-	mysql "scaffold-api-server/internal/services/database/mysql"
-	health_check "scaffold-api-server/internal/services/health-check"
-	"scaffold-api-server/pkg"
-	"scaffold-api-server/pkg/config"
 	"time"
 )
 

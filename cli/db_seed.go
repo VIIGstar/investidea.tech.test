@@ -1,22 +1,21 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
-	"gorm.io/gorm"
+	"investidea.tech.test/internal/entities"
+	"investidea.tech.test/internal/services/database"
+	"investidea.tech.test/internal/services/log"
+	"investidea.tech.test/pkg/config"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/entities"
-	"scaffold-api-server/internal/services"
-	database "scaffold-api-server/internal/services/database/mysql"
-	"scaffold-api-server/internal/services/log"
-	"scaffold-api-server/pkg/config"
 )
 
+var AppName = "DB Migrator"
+
 type MigrateService struct {
-	services.DefaultService
 	logger logur.LoggerFacade
-	gormDB *gorm.DB
+	db     *database.DB
 }
 
 func main() {
@@ -24,10 +23,13 @@ func main() {
 	migrateService.Init()
 
 	tables := []interface{}{
-		entities.Investor{},
+		entities.Buyer{},
+		entities.Seller{},
+		entities.Product{},
+		entities.Order{},
 	}
 
-	err := migrateService.gormDB.AutoMigrate(tables...)
+	err := migrateService.db.GormDB().AutoMigrate(tables...)
 	if err != nil {
 		migrateService.logger.Error(fmt.Sprintf("Seed failed, details: %v", err))
 		return
@@ -37,29 +39,15 @@ func main() {
 }
 
 func (s *MigrateService) Init() {
-	s.DefaultService.Init()
-	var (
-		logCf = config.LogConfig{}
-		dbCf  = config.DBConfig{}
-	)
-	cfBytes, _ := json.Marshal(viper.GetStringMap("log"))
-	json.Unmarshal(cfBytes, &logCf)
-	cfBytes, _ = json.Marshal(viper.GetStringMap("database"))
-	json.Unmarshal(cfBytes, &dbCf)
-
-	logger := log.NewLogger(logCf)
+	v, f := viper.New(), pflag.NewFlagSet(AppName, pflag.ExitOnError)
+	cfg := config.New(v, f)
+	logger := log.NewLogger(cfg.Log)
 
 	// Override the global standard library logger to make sure everything uses our logger
 	log.SetStandardLogger(logger)
 	// Start database
-	if dbCf.Params == nil {
-		dbCf.Params = make(map[string]string)
-	}
-	gormDB, err := database.NewConnector(dbCf)
-	if err != nil {
-		panic(err)
-	}
+	db := database.New(logger, cfg.Database)
 
-	s.gormDB = gormDB
+	s.db = db
 	s.logger = logger
 }

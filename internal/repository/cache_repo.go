@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/services/cache"
+	"investidea.tech.test/internal/services/cache"
 	"time"
 )
 

@@ -27,7 +27,7 @@ func New(ctx context.Context, address string, logger logur.LoggerFacade) (*Clien
 
 // TestCache initializes and return redis connection
 // Should not use in production
-func TestClient(ctx context.Context, logger logur.LoggerFacade) *Client {
+func TestCache(ctx context.Context, logger logur.LoggerFacade) *Client {
 	c, err := New(ctx, "127.0.0.1:6379", logger)
 	if err != nil {
 		panic(err) // ideally should not use panic in production, but for testing is ok

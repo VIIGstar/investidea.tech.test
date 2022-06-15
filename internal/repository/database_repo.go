@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"investidea.tech.test/internal/repository/user"
+	"investidea.tech.test/internal/services/database"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/repository/user"
-	"scaffold-api-server/internal/services/database"
 )
 
 type DatabaseRepo interface {

@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"investidea.tech.test/internal/services/log"
+	"investidea.tech.test/pkg/config"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"scaffold-api-server/internal/services/log"
-	"scaffold-api-server/pkg/config"
 	"strings"
 	"sync"
 )

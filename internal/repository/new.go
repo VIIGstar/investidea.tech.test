@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"investidea.tech.test/internal/services/cache"
+	"investidea.tech.test/internal/services/database"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/services/cache"
-	"scaffold-api-server/internal/services/database"
 )
 
 // Registry ...

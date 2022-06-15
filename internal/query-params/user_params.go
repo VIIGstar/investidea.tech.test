@@ -1,6 +1,6 @@
 package query_params
 
-import "scaffold-api-server/pkg/database"
+import "investidea.tech.test/pkg/database"
 
 type GetUserParams struct {
 	database.CommonQueryParams

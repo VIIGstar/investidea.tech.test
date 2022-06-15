@@ -1,8 +1,8 @@
 package session_handlers
 
 import (
+	"investidea.tech.test/internal/repository"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/repository"
 )
 
 type sessionHandler struct {

@@ -2,10 +2,10 @@ package user
 
 import (
 	"context"
+	"investidea.tech.test/internal/entities"
+	query_params "investidea.tech.test/internal/query-params"
+	"investidea.tech.test/internal/services/database"
 	"logur.dev/logur"
-	"scaffold-api-server/internal/entities"
-	query_params "scaffold-api-server/internal/query-params"
-	"scaffold-api-server/internal/services/database"
 )
 
 // New creates new impl impl and returns as User interface
@@ -19,9 +19,9 @@ func New(logger logur.LoggerFacade, db *database.DB) Repo {
 // Repo represents methods that User repository must implement
 type Repo interface {
 	// Create inserts new record in User table
-	Create(u *entities.Investor) error
+	Create(u *entities.User) error
 	// Find retrieves a impl based on search criteria
-	Find(ctx context.Context, req query_params.GetUserParams, lock bool) (*entities.Investor, error)
+	Find(ctx context.Context, req query_params.GetUserParams, lock bool) (*entities.User, error)
 }
 
 type impl struct {

@@ -3,12 +3,13 @@ package user_handlers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"investidea.tech.test/internal/dtos"
+	"investidea.tech.test/internal/entities"
+	database "investidea.tech.test/internal/services/database/mysql"
+	"investidea.tech.test/pkg/auth"
+	app_http "investidea.tech.test/pkg/http"
 	"net/http"
-	"scaffold-api-server/internal/dtos"
-	"scaffold-api-server/internal/entities"
-	database "scaffold-api-server/internal/services/database/mysql"
-	"scaffold-api-server/pkg/auth"
-	app_http "scaffold-api-server/pkg/http"
+	"strings"
 )
 
 // @Summary  Signup create new user
@@ -20,7 +21,7 @@ import (
 // @Failure  400,500  {object}  object{error=string}
 // @Router   /api/v1/investors/signup [post]
 func (s *userHandler) Signup(c *gin.Context) {
-	user := dtos.InvestorDTO{}
+	user := dtos.UserDTO{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		s.logger.Error(fmt.Sprintf("Invalid request, err: %v", err))
@@ -30,10 +31,9 @@ func (s *userHandler) Signup(c *gin.Context) {
 		return
 	}
 
-	if !user.IsValid() {
-		s.logger.Error(fmt.Sprintf("Invalid dto value, dto: %v", user))
+	if errs := user.Validate(); len(errs) > 0 {
 		c.JSON(http.StatusBadRequest, auth.Authentication{
-			Error: app_http.HTTPBadRequestError,
+			Error: strings.Join(errs, "\n"),
 		})
 		return
 	}
@@ -47,13 +47,13 @@ func (s *userHandler) Signup(c *gin.Context) {
 		return
 	}
 
-	entity, _ := iEntity.(*entities.Investor)
-	err = s.repo.Database().User().Create(entity)
+	entity, _ := iEntity.(entities.User)
+	err = s.repo.Database().User().Create(&entity)
 	if err != nil {
 		s.logger.Error(fmt.Sprintf("Insert into database failed, err: %v", err))
 		if database.IsDuplicateErr(err) {
 			c.JSON(http.StatusInternalServerError, auth.Authentication{
-				Error: "Already registered!",
+				Error: auth.ErrUserAlreadyRegistered.Error(),
 			})
 			return
 		}

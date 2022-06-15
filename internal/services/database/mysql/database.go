@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"scaffold-api-server/pkg/config"
+	"investidea.tech.test/pkg/config"
 )
 
 // NewConnector returns a new database connector for the application.

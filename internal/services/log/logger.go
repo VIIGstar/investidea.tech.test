@@ -3,7 +3,7 @@ package log
 
 import (
 	"os"
-	"scaffold-api-server/pkg/config"
+	"investidea.tech.test/pkg/config"
 
 	"github.com/sirupsen/logrus"
 	logrusadapter "logur.dev/adapter/logrus"
