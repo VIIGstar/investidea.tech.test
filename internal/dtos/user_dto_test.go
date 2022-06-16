@@ -4,13 +4,14 @@ import (
 	"crypto/md5"
 	"github.com/stretchr/testify/assert"
 	"investidea.tech.test/internal/entities"
+	"investidea.tech.test/pkg/auth"
 	"testing"
 )
 
 func TestUserDTO_IsValid_False(t *testing.T) {
 	dto := UserDTO{
 		User: entities.User{
-			Role:     entities.BuyerRole.String(),
+			Role:     auth.BuyerRole.String(),
 			Email:    "example",
 			Name:     "Trung",
 			Password: "123456",
@@ -25,7 +26,7 @@ func TestUserDTO_IsValid_False(t *testing.T) {
 func TestUserDTO_IsValid_OK(t *testing.T) {
 	dto := UserDTO{
 		User: entities.User{
-			Role:     entities.BuyerRole.String(),
+			Role:     auth.BuyerRole.String(),
 			Email:    "investidea@gmail.com",
 			Name:     "Trung",
 			Password: "123456",
@@ -39,7 +40,7 @@ func TestUserDTO_IsValid_OK(t *testing.T) {
 func TestUserDTO_ToEntity(t *testing.T) {
 	dto := UserDTO{
 		User: entities.User{
-			Role:     entities.BuyerRole.String(),
+			Role:     auth.BuyerRole.String(),
 			Email:    "investidea@gmail.com",
 			Name:     "Trung",
 			Password: "123456",

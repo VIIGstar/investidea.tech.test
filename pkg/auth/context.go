@@ -15,8 +15,8 @@ const (
 )
 
 type UserDetails struct {
-	UserID  int64
-	Address string
+	UserID int64
+	Role   string
 }
 
 // setUserContext sets user details in context

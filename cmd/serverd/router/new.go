@@ -2,12 +2,10 @@ package router
 
 import (
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	swagger_files "github.com/swaggo/files"
 	gin_swagger "github.com/swaggo/gin-swagger"
-	"logur.dev/logur"
-	"os"
+	product_handlers "investidea.tech.test/internal/handlers/product-handlers"
 	session_handlers "investidea.tech.test/internal/handlers/session-handlers"
 	system_handlers "investidea.tech.test/internal/handlers/system-handlers"
 	user_handlers "investidea.tech.test/internal/handlers/user-handlers"
@@ -17,9 +15,11 @@ import (
 	"investidea.tech.test/pkg/auth"
 	build_info "investidea.tech.test/pkg/build-info"
 	"investidea.tech.test/pkg/web"
+	"logur.dev/logur"
+	"os"
 )
 
-// New hooks all routes to handlers
+// New hooks all routes to product-handlers
 func New(
 	buildInfo build_info.BuildInfo,
 	logger logur.LoggerFacade,
@@ -52,12 +52,13 @@ func New(
 	systemHandler := system_handlers.New(buildInfo)
 	sessionHandler := session_handlers.New(logger, repo)
 	userHandler := user_handlers.New(logger, repo)
+	productHandler := product_handlers.New(logger, repo)
 
 	rootURL := r.Group("api/v1")
 	rootURL.GET("/liveness", systemHandler.Liveness)
 
 	// For profiling
-	pprof.Register(r, "api/v1/debug/pprof")
+	//pprof.Register(r, "api/v1/debug/pprof")
 
 	// Auth endpoint
 	sessionURL := r.Group("api/v1/sessions")
@@ -65,8 +66,12 @@ func New(
 	sessionURL.POST("/logout", sessionHandler.Logout)
 
 	// Business endpoint
-	userURL := r.Group("api/v1/investors")
+	userURL := r.Group("api/v1/users")
 	userURL.POST("/signup", userHandler.Signup)
+
+	productURL := r.Group("api/v1/products")
+	productURL.POST("/", auth.Authorize(auth.SellerRole), productHandler.Create)
+	productURL.GET("/", productHandler.Search)
 
 	// Swagger API Docs for QA/Dev
 	if isDevEnv {

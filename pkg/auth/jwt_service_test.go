@@ -12,8 +12,8 @@ import (
 )
 
 var id = "1"
-var walletAddress = "0xFC7C98fF48Aa50D75b77A3CA3E7f528817b88255"
-var urlRequest, _ = url.Parse(fmt.Sprintf("localhost:8080/v1/auth?wallet_address=%v", walletAddress))
+var role = BuyerRole.String()
+var urlRequest, _ = url.Parse(fmt.Sprintf("localhost:8080/v1/auth?wallet_address=%v", role))
 
 var ginCtx = &gin.Context{
 	Request: &defaultRequest,
@@ -41,7 +41,7 @@ func defaultExpired() time.Time {
 }
 
 func expectToken() string {
-	return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIweEZDN0M5OGZGNDhBYTUwRDc1Yjc3QTNDQTNFN2Y1Mjg4MTdiODgyNTUiLCJhdWQiOlsiWzo6MV06NjA4NDQiLCJQb3N0bWFuUnVudGltZS83LjI5LjAiXSwiZXhwIjoxNjUwNTM3Mzk4LCJqdGkiOiIxIn0.PAJYsb33ejQpZPWJMBGYskt9OFXIX06BKDHgeWLh1s8"
+	return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxIiwic3ViIjoiYnV5ZXIiLCJhdWQiOlsiWzo6MV06NjA4NDQiLCJQb3N0bWFuUnVudGltZS83LjI5LjAiXSwiZXhwIjoxNjUwNTM3Mzk4fQ.Co7jsdTV6mD_L3Ckv-BwPVdmZK-8jPP6YB0yrLDQCg8"
 }
 
 func TestJwtService_ParseClaims(t *testing.T) {
@@ -52,13 +52,13 @@ func TestJwtService_ParseClaims(t *testing.T) {
 
 func TestJwtService_GenerateToken(t *testing.T) {
 	sv := GetSampleJWTService()
-	token := sv.generateToken(walletAddress, id, ginCtx, defaultExpired())
+	token := sv.generateToken(role, id, ginCtx, defaultExpired())
 	assert.Equal(t, expectToken(), token)
 }
 
 func TestJwtService_ValidateToken(t *testing.T) {
 	sv := GetSampleJWTService()
-	token := sv.generateToken(walletAddress, id, ginCtx, defaultExpired())
+	token := sv.generateToken(role, id, ginCtx, defaultExpired())
 	tk, err := sv.validateToken(token, ginCtx)
 	assert.Equal(t, err.Error(), ErrTokenExpired.Error())
 	assert.NotNil(t, tk)
@@ -66,7 +66,7 @@ func TestJwtService_ValidateToken(t *testing.T) {
 
 func TestJwtService_ValidateToken_ExpectOK(t *testing.T) {
 	sv := GetSampleJWTService()
-	token := sv.generateToken(walletAddress, id, ginCtx, time.Now().Add(time.Hour))
+	token := sv.generateToken(role, id, ginCtx, time.Now().Add(time.Hour))
 
 	rq := defaultRequest
 	rq.Header.Set("Authorization", token)
@@ -76,13 +76,13 @@ func TestJwtService_ValidateToken_ExpectOK(t *testing.T) {
 	assert.True(t, tk.Valid)
 	assert.NotNil(t, tk)
 	claims := tk.Claims.(jwt.MapClaims)
-	assert.Equal(t, claims[IssuerAddressClaimKey], walletAddress)
+	assert.Equal(t, claims[IssuerRoleClaimKey], role)
 	assert.Equal(t, claims[IssuerIdClaimKey], id)
 }
 
 func TestJwtService_ValidateToken_ExpectFail2(t *testing.T) {
 	sv := GetSampleJWTService()
-	token := sv.generateToken(walletAddress, id, ginCtx, time.Now().Add(time.Hour))
+	token := sv.generateToken(role, id, ginCtx, time.Now().Add(time.Hour))
 
 	rq := defaultRequest
 	rq.Header.Set("Authorization", "abc"+token)

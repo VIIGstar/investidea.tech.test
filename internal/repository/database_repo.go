@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"investidea.tech.test/internal/repository/product"
 	"investidea.tech.test/internal/repository/user"
 	"investidea.tech.test/internal/services/database"
 	"logur.dev/logur"
@@ -8,18 +9,25 @@ import (
 
 type DatabaseRepo interface {
 	User() user.Repo
+	Product() product.Repo
 }
 
 func NewDBImpl(logger logur.LoggerFacade, db *database.DB) dbImpl {
 	return dbImpl{
-		user: user.New(logger, db),
+		user:    user.New(logger, db),
+		product: product.New(logger, db),
 	}
 }
 
 type dbImpl struct {
-	user user.Repo
+	user    user.Repo
+	product product.Repo
 }
 
 func (i dbImpl) User() user.Repo {
 	return i.user
+}
+
+func (i dbImpl) Product() product.Repo {
+	return i.product
 }

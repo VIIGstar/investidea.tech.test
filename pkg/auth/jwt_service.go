@@ -27,15 +27,15 @@ func newJWTService() *jwtService {
 	}
 }
 
-func (j *jwtService) generateToken(address, id string, c *gin.Context, expired time.Time) string {
+func (j *jwtService) generateToken(role, id string, c *gin.Context, expired time.Time) string {
 	aud := parseClaimString(c)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-		Issuer:   address,
+		Issuer:   id,
 		Audience: aud,
 		ExpiresAt: &jwt.NumericDate{
 			Time: expired,
 		},
-		ID: id,
+		Subject: role,
 	})
 	t, err := token.SignedString([]byte(j.secretKey))
 	if err != nil {

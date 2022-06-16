@@ -123,7 +123,7 @@ func TestUserHandler_SignupFailEmptyBody(t *testing.T) {
 func defaultBuyer() dtos.UserDTO {
 	return dtos.UserDTO{
 		User: entities.User{
-			Role:     entities.BuyerRole.String(),
+			Role:     auth.BuyerRole.String(),
 			Email:    "example.com@gmail.com",
 			Name:     "Trung",
 			Password: "12345678",

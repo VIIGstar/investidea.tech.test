@@ -30,7 +30,7 @@ func (h *sessionHandler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, auth.Authentication{
-		AccessToken: auth.New().GenerateAccessToken(user.Address, fmt.Sprintf("%v", user.ID), c),
+		AccessToken: auth.New().GenerateAccessToken(user.Role, fmt.Sprintf("%v", user.ID), c),
 		Success:     true,
 	})
 }

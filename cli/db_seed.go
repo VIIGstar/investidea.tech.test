@@ -23,6 +23,7 @@ func main() {
 	migrateService.Init()
 
 	tables := []interface{}{
+		entities.User{},
 		entities.Buyer{},
 		entities.Seller{},
 		entities.Product{},
