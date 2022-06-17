@@ -32,5 +32,5 @@ swag:
 # RUN JOB
 # ==============================================================================
 run-api: install docker-compose-up migrate
-	go build ./cmd/serverd/main.go && ./main
+	go run ./cmd/serverd/main.go
 

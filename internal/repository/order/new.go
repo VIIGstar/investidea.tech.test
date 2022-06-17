@@ -1,4 +1,4 @@
-package product
+package order
 
 import (
 	"context"
@@ -19,14 +19,24 @@ func New(logger logur.LoggerFacade, db *database.DB) Repo {
 // Repo represents methods that User repository must implement
 type Repo interface {
 	// Create inserts new record in User table
-	Create(p *entities.Product) error
+	Create(order *entities.Order) error
 	// Get retrieves a impl based on search criteria
-	Get(ctx context.Context, req query_params.ProductParams, lock bool) (*entities.Product, error)
+	Get(ctx context.Context, req query_params.OrderParams, lock bool) (*entities.Order, error)
 	// Find retrieves a impl based on search criteria
-	Find(ctx context.Context, req query_params.ProductParams, lock bool) ([]entities.Product, error)
+	Find(ctx context.Context, req query_params.OrderParams, lock bool) ([]entities.Order, error)
 }
 
 type impl struct {
 	logger logur.LoggerFacade
 	db     *database.DB
+}
+
+func (i impl) Get(ctx context.Context, req query_params.OrderParams, lock bool) (*entities.Order, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (i impl) Find(ctx context.Context, req query_params.OrderParams, lock bool) ([]entities.Order, error) {
+	//TODO implement me
+	panic("implement me")
 }

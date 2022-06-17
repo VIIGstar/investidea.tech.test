@@ -26,3 +26,7 @@ func (u User) ToSellerModel() Seller {
 		AlamatPickup: u.Address,
 	}
 }
+
+func (User) TableName() string {
+	return "users"
+}

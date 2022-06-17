@@ -7,5 +7,9 @@ type Product struct {
 	ProductName string `json:"product_name" gorm:"type:varchar(256);unique" bind:"required"`
 	Description string `json:"description" gorm:"type:text"`
 	Price       int64  `json:"price"`
-	SellerID    int64  `json:"seller_id"`
+	SellerID    int64  `json:"seller_id;omitempty"`
+}
+
+func (Product) TableName() string {
+	return "products"
 }

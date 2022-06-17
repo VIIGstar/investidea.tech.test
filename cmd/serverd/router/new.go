@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swagger_files "github.com/swaggo/files"
 	gin_swagger "github.com/swaggo/gin-swagger"
+	order_handlers "investidea.tech.test/internal/handlers/order-handlers"
 	product_handlers "investidea.tech.test/internal/handlers/product-handlers"
 	session_handlers "investidea.tech.test/internal/handlers/session-handlers"
 	system_handlers "investidea.tech.test/internal/handlers/system-handlers"
@@ -53,6 +54,7 @@ func New(
 	sessionHandler := session_handlers.New(logger, repo)
 	userHandler := user_handlers.New(logger, repo)
 	productHandler := product_handlers.New(logger, repo)
+	orderHandler := order_handlers.New(logger, repo)
 
 	rootURL := r.Group("api/v1")
 	rootURL.GET("/liveness", systemHandler.Liveness)
@@ -70,8 +72,13 @@ func New(
 	userURL.POST("/signup", userHandler.Signup)
 
 	productURL := r.Group("api/v1/products")
-	productURL.POST("/", auth.Authorize(auth.SellerRole), productHandler.Create)
-	productURL.GET("/", productHandler.Search)
+	productURL.POST("/", auth.Authorize(auth.SellerRole), productHandler.Add)
+	productURL.GET("/", productHandler.View)
+	productURL.GET("/:id", productHandler.Get)
+
+	orderURL := r.Group("api/v1/orders")
+	orderURL.POST("/", auth.Authorize(auth.BuyerRole), orderHandler.Create)
+	//orderURL.GET("/", productHandler.View)
 
 	// Swagger API Docs for QA/Dev
 	if isDevEnv {

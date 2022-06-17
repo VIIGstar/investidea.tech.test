@@ -7,16 +7,18 @@ import (
 	"gorm.io/gorm/clause"
 	"investidea.tech.test/internal/entities"
 	query_params "investidea.tech.test/internal/query-params"
+	"investidea.tech.test/pkg/database"
 )
 
-func (i impl) Find(ctx context.Context, req query_params.ProductParams, lock bool) ([]*entities.Product, error) {
+func (i impl) Find(ctx context.Context, req query_params.ProductParams, lock bool) ([]entities.Product, error) {
 	req.CommonQueryParams = req.CommonQueryParams.CorrectRequests()
 	qb := i.getCommonFilter(ctx, req, lock).
+		Select(database.SelectColumns(entities.Product{}, database.WithIgnoreFields("seller_id"))).
 		Limit(req.Limit).
 		Offset(req.Offset)
-	result := make([]*entities.Product, 0)
-
-	return result, qb.Find(result).Error
+	result := make([]entities.Product, 0)
+	err := qb.Find(&result).Error
+	return result, err
 }
 
 func (i impl) getCommonFilter(

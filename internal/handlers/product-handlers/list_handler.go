@@ -8,9 +8,9 @@ import (
 	"net/http"
 )
 
-func (h productHandler) Search(c *gin.Context) {
+func (h productHandler) View(c *gin.Context) {
 	var req = query_params.ProductParams{}
-	err := c.ShouldBindJSON(&req)
+	err := c.ShouldBindQuery(&req)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("Invalid request, err: %v", err))
 		c.JSON(http.StatusBadRequest, "Invalid request")

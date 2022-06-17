@@ -1,0 +1,181 @@
+definitions:
+  auth.Authentication:
+    properties:
+      access_token:
+        type: string
+      error:
+        type: string
+      success:
+        type: boolean
+    type: object
+  dtos.UserDTO:
+    properties:
+      address:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        description: base_entity.Base
+        type: string
+    type: object
+host: localhost:4000
+info:
+  contact: {}
+paths:
+  /api/v1/builder:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                revision:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Check Image build info
+      tags:
+      - Health
+  /api/v1/investors/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: The input struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Authentication'
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Signup create new user
+      tags:
+      - Investor
+  /api/v1/liveness:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                message:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Check API still alive
+      tags:
+      - Health
+  /api/v1/sessions/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: public key address to user wallet
+        in: body
+        name: data
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Authentication'
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Validate user then get access token
+      tags:
+      - Session
+swagger: "2.0"

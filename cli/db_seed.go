@@ -47,9 +47,7 @@ func (s *MigrateService) Init() {
 	// Override the global standard library logger to make sure everything uses our logger
 	log.SetStandardLogger(logger)
 	// Start database
-	db := database.New(logger, cfg.Database)
 
-	db.GormDB().Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %v", cfg.Database.Name))
-	s.db = db
+	s.db = database.New(logger, cfg.Database)
 	s.logger = logger
 }

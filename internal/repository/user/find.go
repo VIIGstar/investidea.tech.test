@@ -13,14 +13,16 @@ func (i impl) Login(ctx context.Context, email, password string) (*entities.User
 		return nil, database.InvalidRequestError
 	}
 
-	var user = &entities.User{}
+	var user = entities.User{}
 	query := i.db.GormDB().
 		WithContext(ctx).
 		Model(user).
-		Where("email = ?", email).
-		Where("password = ?", password)
+		Select(database.SelectColumns(user)).
+		Joins("LEFT JOIN buyers ON buyers.user_id = users.id AND buyers.password = ?", password).
+		Joins("LEFT JOIN sellers ON sellers.user_id = users.id AND sellers.password = ?", password).
+		Where("users.email = ?", email)
 
-	err := query.First(user).Error
+	err := query.First(&user).Error
 	if err != nil {
 		i.logger.Error("find user failed", info_log.ErrorToLogFields("details", err))
 		if err.Error() == gorm.ErrRecordNotFound.Error() {
@@ -29,5 +31,5 @@ func (i impl) Login(ctx context.Context, email, password string) (*entities.User
 		return nil, err
 	}
 
-	return user, nil
+	return &user, nil
 }

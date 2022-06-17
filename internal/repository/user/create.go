@@ -18,9 +18,11 @@ func (i impl) Create(u *entities.User) error {
 		switch auth.RoleType(u.Role) {
 		case auth.BuyerRole:
 			buyer := u.ToBuyerModel()
+			buyer.UserID = u.ID
 			txErr = tx.Model(entities.Buyer{}).Create(&buyer).Error
 		case auth.SellerRole:
 			seller := u.ToSellerModel()
+			seller.UserID = u.ID
 			txErr = tx.Model(entities.Seller{}).Create(&seller).Error
 		default:
 			return errors.New(dtos.InvalidRoleErrReason)

@@ -13,7 +13,7 @@ host="localhost"
 port=3306
 user="dev"
 pass="12345678"
-name="invest-idea"
+name="invest_idea"
 
 [redis]
 host="localhost"

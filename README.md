@@ -7,8 +7,8 @@
 $ make install // load dependencies
 $ cp .env.example .env
 ## => change HOST variable in .env to current location
-$ mkdir config && cp conf.toml config/conf.toml
 $ make docker-compose-up
+## => create your database and update config database.name in conf.toml file
 $ make run-api
 ```
 
