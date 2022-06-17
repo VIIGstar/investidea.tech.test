@@ -49,6 +49,7 @@ func (s *MigrateService) Init() {
 	// Start database
 	db := database.New(logger, cfg.Database)
 
+	db.GormDB().Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %v", cfg.Database.Name))
 	s.db = db
 	s.logger = logger
 }

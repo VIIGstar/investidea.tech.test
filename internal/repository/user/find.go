@@ -4,21 +4,21 @@ import (
 	"context"
 	"gorm.io/gorm"
 	"investidea.tech.test/internal/entities"
-	query_params "investidea.tech.test/internal/query-params"
 	"investidea.tech.test/pkg/database"
 	info_log "investidea.tech.test/pkg/info-log"
 )
 
-func (i impl) Find(ctx context.Context, req query_params.GetUserParams, lock bool) (*entities.User, error) {
-	if !isValidParams(req) {
+func (i impl) Login(ctx context.Context, email, password string) (*entities.User, error) {
+	if len(password) == 0 || len(email) == 0 {
 		return nil, database.InvalidRequestError
 	}
 
 	var user = &entities.User{}
 	query := i.db.GormDB().
 		WithContext(ctx).
-		Model(user)
-	query = filterInvestor(query, req)
+		Model(user).
+		Where("email = ?", email).
+		Where("password = ?", password)
 
 	err := query.First(user).Error
 	if err != nil {
@@ -30,12 +30,4 @@ func (i impl) Find(ctx context.Context, req query_params.GetUserParams, lock boo
 	}
 
 	return user, nil
-}
-
-func filterInvestor(db *gorm.DB, req query_params.GetUserParams) *gorm.DB {
-	return db.Where("address = ?", req.Address)
-}
-
-func isValidParams(req query_params.GetUserParams) bool {
-	return len(req.Address) > 0
 }

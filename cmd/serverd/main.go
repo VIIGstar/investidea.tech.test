@@ -39,8 +39,7 @@ func main() {
 // @host localhost:4000
 func run() error {
 	ctx := context.TODO()
-	v, f := viper.New(), pflag.NewFlagSet(string(pkg.APIAppName), pflag.ExitOnError)
-	cfg := config.New(v, f)
+	cfg := config.New(viper.GetViper(), pflag.NewFlagSet(string(pkg.APIAppName), pflag.ExitOnError))
 	// Create logger (first thing after configuration loading)
 	logger := log.NewLogger(cfg.Log)
 

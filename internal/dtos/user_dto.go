@@ -28,7 +28,7 @@ func (dto UserDTO) Validate() []string {
 	}
 
 	if len(dto.Role) == 0 {
-		listErr = append(listErr, )
+		listErr = append(listErr, InvalidRoleErrReason)
 	}
 	return listErr
 }

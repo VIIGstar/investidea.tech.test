@@ -14,12 +14,12 @@ import (
 
 // @Summary  Signup create new user
 // @Tags     Investor
-// @Param    data body dtos.InvestorDTO true "The input struct"
+// @Param    data body dtos.UserDTO true "The input struct"
 // @Accept   json
 // @Produce  json
 // @Success  200      {object}  auth.Authentication
 // @Failure  400,500  {object}  object{error=string}
-// @Router   /api/v1/investors/signup [post]
+// @Router   /api/v1/users/signup [post]
 func (s *userHandler) Signup(c *gin.Context) {
 	user := dtos.UserDTO{}
 	err := c.ShouldBindJSON(&user)

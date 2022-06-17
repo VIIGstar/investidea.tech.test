@@ -1,7 +1,7 @@
 # ==============================================================================
 # DOCKER COMPOSE
 # ==============================================================================
-COMPOSE := docker-compose -f ./docker-compose.yml
+COMPOSE := docker-compose -f ./docker-compose.local.yml
 
 load-env:
     export $(cut -d= -f1 .env)
@@ -14,6 +14,7 @@ docker-compose-up: load-env
 # ==============================================================================
 install:
 	echo Download go.mod dependencies
+	go mod tidy
 	go mod download
 
 test-all:
@@ -30,6 +31,6 @@ swag:
 # ==============================================================================
 # RUN JOB
 # ==============================================================================
-run-api: migrate install docker-compose-up
+run-api: install docker-compose-up migrate
 	go build ./cmd/serverd/main.go && ./main
 

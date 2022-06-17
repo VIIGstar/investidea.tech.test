@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"investidea.tech.test/internal/entities"
-	query_params "investidea.tech.test/internal/query-params"
 	"investidea.tech.test/internal/services/database"
 	"logur.dev/logur"
 )
@@ -20,8 +19,7 @@ func New(logger logur.LoggerFacade, db *database.DB) Repo {
 type Repo interface {
 	// Create inserts new record in User table
 	Create(u *entities.User) error
-	// Find retrieves a impl based on search criteria
-	Find(ctx context.Context, req query_params.GetUserParams, lock bool) (*entities.User, error)
+	Login(ctx context.Context, email, password string) (*entities.User, error)
 }
 
 type impl struct {
