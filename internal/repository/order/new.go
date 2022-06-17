@@ -21,7 +21,7 @@ type Repo interface {
 	// Create inserts new record in User table
 	Create(order *entities.Order) error
 	// Get retrieves a impl based on search criteria
-	Get(ctx context.Context, req query_params.OrderParams, lock bool) (*entities.Order, error)
+	Update(ctx context.Context, value entities.Order, conditions query_params.OrderParams, lock bool) (*entities.Order, error)
 	// Find retrieves a impl based on search criteria
 	Find(ctx context.Context, req query_params.OrderParams, lock bool) ([]entities.Order, error)
 }
@@ -29,14 +29,4 @@ type Repo interface {
 type impl struct {
 	logger logur.LoggerFacade
 	db     *database.DB
-}
-
-func (i impl) Get(ctx context.Context, req query_params.OrderParams, lock bool) (*entities.Order, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (i impl) Find(ctx context.Context, req query_params.OrderParams, lock bool) ([]entities.Order, error) {
-	//TODO implement me
-	panic("implement me")
 }

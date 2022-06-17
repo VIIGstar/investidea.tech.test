@@ -78,7 +78,8 @@ func New(
 
 	orderURL := r.Group("api/v1/orders")
 	orderURL.POST("/", auth.Authorize(auth.BuyerRole), orderHandler.Create)
-	//orderURL.GET("/", productHandler.View)
+	orderURL.GET("/", orderHandler.View)
+	orderURL.PUT("/:id/accept", orderHandler.Accept)
 
 	// Swagger API Docs for QA/Dev
 	if isDevEnv {

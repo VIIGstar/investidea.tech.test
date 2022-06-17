@@ -12,14 +12,19 @@ definitions:
     properties:
       address:
         type: string
+      created_at:
+        type: string
       email:
         type: string
+      id:
+        type: integer
       name:
         type: string
       password:
         type: string
       role:
-        description: base_entity.Base
+        type: string
+      updated_at:
         type: string
     type: object
 host: localhost:4000
@@ -63,45 +68,6 @@ paths:
       summary: Check Image build info
       tags:
       - Health
-  /api/v1/investors/signup:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: The input struct
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/dtos.UserDTO'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/auth.Authentication'
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - type: object
-            - properties:
-                error:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - type: object
-            - properties:
-                error:
-                  type: string
-              type: object
-      summary: Signup create new user
-      tags:
-      - Investor
   /api/v1/liveness:
     get:
       consumes:
@@ -178,4 +144,43 @@ paths:
       summary: Validate user then get access token
       tags:
       - Session
+  /api/v1/users/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: The input struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Authentication'
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - type: object
+            - properties:
+                error:
+                  type: string
+              type: object
+      summary: Signup create new user
+      tags:
+      - Investor
 swagger: "2.0"

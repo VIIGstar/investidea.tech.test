@@ -19,7 +19,6 @@ import (
 	"investidea.tech.test/internal/services/log"
 	"investidea.tech.test/pkg"
 	"investidea.tech.test/pkg/auth"
-	base_entity "investidea.tech.test/pkg/base-entity"
 	"investidea.tech.test/pkg/config"
 	"io"
 	"net/http"
@@ -128,7 +127,7 @@ func defaultBuyer() dtos.UserDTO {
 			Name:     "Trung",
 			Password: "12345678",
 			Address:  walletAddress,
-			Base: base_entity.Base{
+			Base: entities.Base{
 				CreatedAt: time.Now(),
 				UpdatedAt: time.Now(),
 			},

@@ -1,9 +1,7 @@
 package entities
 
-import base_entity "investidea.tech.test/pkg/base-entity"
-
 type User struct {
-	base_entity.Base
+	Base
 	Role     string `json:"role" gorm:"type:varchar(16)"`
 	Email    string `json:"email" gorm:"type:varchar(256);unique" bind:"required"`
 	Name     string `json:"name" gorm:"-"`

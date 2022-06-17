@@ -15,7 +15,6 @@ import (
 	"investidea.tech.test/internal/services/database"
 	"investidea.tech.test/internal/services/log"
 	"investidea.tech.test/pkg/auth"
-	base_entity "investidea.tech.test/pkg/base-entity"
 	"investidea.tech.test/pkg/config"
 	"io"
 	"net/http"
@@ -59,7 +58,7 @@ func init() {
 func TestSessionHandler_Login(t *testing.T) {
 	dto := dtos.UserDTO{
 		User: entities.User{
-			Base: base_entity.Base{
+			Base: entities.Base{
 				ID: 1,
 			},
 			Role:     auth.BuyerRole.String(),

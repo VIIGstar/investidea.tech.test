@@ -32,6 +32,7 @@ func (h orderHandler) Create(c *gin.Context) {
 	entity, _ := dto.ToEntity()
 	order, _ := entity.(entities.Order)
 	order.BuyerID = session.UserID
+	order.Status = entities.OrderStatusPending.String()
 	err = h.repo.Database().Order().Create(&order)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("Create order failed, err: %v", err))
