@@ -1,8 +1,8 @@
 package dtos
 
 import (
-	"crypto/md5"
 	"investidea.tech.test/internal/entities"
+	"investidea.tech.test/pkg/password"
 	"net/mail"
 )
 
@@ -17,8 +17,7 @@ type UserDTO struct {
 
 func (dto UserDTO) ToEntity() (interface{}, error) {
 	user := dto.User
-	hashed := md5.Sum([]byte(user.Password))
-	user.Password = string(hashed[:])
+	user.Password = password.Hash(user.Password)
 	return user, nil
 }
 func (dto UserDTO) Validate() []string {

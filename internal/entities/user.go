@@ -5,7 +5,7 @@ import base_entity "investidea.tech.test/pkg/base-entity"
 type User struct {
 	base_entity.Base
 	Role     string `json:"role" gorm:"type:varchar(16)"`
-	Email    string `json:"email" gorm:"type:varchar(256)" bind:"required"`
+	Email    string `json:"email" gorm:"type:varchar(256);unique" bind:"required"`
 	Name     string `json:"name" gorm:"-"`
 	Password string `json:"password" gorm:"-" bind:"required"`
 	Address  string `json:"address" gorm:"-"`

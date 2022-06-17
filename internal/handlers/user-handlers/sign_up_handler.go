@@ -63,7 +63,7 @@ func (s *userHandler) Signup(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, auth.Authentication{
-		AccessToken: auth.New().GenerateAccessToken(entity.Address, fmt.Sprintf("%v", entity.ID), c),
+		AccessToken: auth.New().GenerateAccessToken(entity.Role, fmt.Sprintf("%v", entity.ID), c),
 		Success:     true,
 	})
 }

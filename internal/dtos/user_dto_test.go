@@ -1,10 +1,11 @@
 package dtos
 
 import (
-	"crypto/md5"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"investidea.tech.test/internal/entities"
 	"investidea.tech.test/pkg/auth"
+	"investidea.tech.test/pkg/password"
 	"testing"
 )
 
@@ -47,8 +48,8 @@ func TestUserDTO_ToEntity(t *testing.T) {
 			Address:  "ha noi, viet nam",
 		},
 	}
-	hashed := md5.Sum([]byte(dto.Password))
+	fmt.Println(password.Hash(dto.Password))
 	user, err := dto.ToEntity()
 	assert.Nil(t, err)
-	assert.True(t, string(hashed[:]) == user.(entities.User).Password)
+	assert.True(t, password.Hash(dto.Password) == user.(entities.User).Password)
 }
